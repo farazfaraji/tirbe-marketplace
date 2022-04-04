@@ -8,7 +8,16 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - .docker:/data/db
+      - .docker/mongodb:/data/db
+  redis:
+    image: redis:alpine
+    container_name: redis_db
+    command: redis-server --appendonly yes
+    ports:
+      - 6379:6379
+    volumes:
+      - ./docker/redis :/data
+    restart: always
 
 volumes:
   mongodb_data_container:

@@ -10,6 +10,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SellerModule } from './seller/seller.module';
 import { WebhookModule } from './webhook/webhook.module';
+import { RedisModule } from '@liaoliaots/nestjs-redis';
 
 @Module({
   imports: [
@@ -32,6 +33,13 @@ import { WebhookModule } from './webhook/webhook.module';
         configService.get('mongodb'),
       inject: [ConfigService],
     } as MongooseModuleAsyncOptions),
+    RedisModule.forRoot({
+      config: {
+        host: 'localhost',
+        port: 6379,
+        password: ''
+      }
+    }),
     TribeCoreModule,
     VotingModule,
     SellerModule,

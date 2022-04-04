@@ -1,12 +1,20 @@
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext, NotAcceptableException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Observable } from 'rxjs';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
+import { RedisService, DEFAULT_REDIS_NAMESPACE } from '@liaoliaots/nestjs-redis';
+import Redis from 'ioredis';
 
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(protected configService: ConfigService) {
+  private redis: Redis
+
+  constructor(
+        protected readonly configService: ConfigService,
+        private readonly redisService: RedisService,
+  ) {
+    this.redis = this.redisService.getClient(DEFAULT_REDIS_NAMESPACE)
   }
 
   canActivate(
@@ -16,7 +24,11 @@ export class AuthGuard implements CanActivate {
     return this.validateRequest(request);
   }
 
-  private validateRequest(req) {
+  private async validateRequest(req) {
+
+    // if (await this.isDuplicate(req.body))
+    //   throw new NotAcceptableException();
+
     //@todo fix this issue
     try {
       const verified = compareSync(req.headers['x-tribe-signature'], this.configService.get('tribe.signature'));
@@ -25,5 +37,16 @@ export class AuthGuard implements CanActivate {
     catch (e) {
       return true;
     }
+  }
+
+  private async isDuplicate(body: any) {
+    console.log(body.data?.id, this.configService.get('app.duplicate_timeout'))
+    console.log(await this.redis.get(`WEBHOOK_${body.data.id}`))
+    if (body.data?.id) {
+      if (await this.redis.get(`WEBHOOK_${body.data.id}`))
+        return true
+      await this.redis.setex(`WEBHOOK_${body.data.id}`, this.configService.get('app.duplicate_timeout'), 'duplicate')
+    }
+    return false
   }
 }

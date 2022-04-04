@@ -2,6 +2,9 @@ export const configuration = () => ({
   env: process.env.NODE_ENV,
   name: process.env.NAME,
   port: parseInt(<string>process.env.PORT, 10),
+  app: {
+    duplicate_timeout: 10
+  },
   tribe: {
     inputs: {
       post: 'aJq6OaiXsqIPurG',
@@ -24,4 +27,5 @@ export const configuration = () => ({
     uri:
             process.env.MONGODB_URL || 'mongodb://root:123password@localhost/admin',
   },
+  redis: process.env.REDIS || 'redis://0.0.0.0:6380/0',
 });
