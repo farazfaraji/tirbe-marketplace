@@ -29,6 +29,8 @@ export class Offer {
 
     @Prop({ default: 0, type: mongoose.Schema.Types.Number })
       lastPrice?: number;
+
+    _id?: mongoose.Types.ObjectId
 }
 
 class AuctionClient {
