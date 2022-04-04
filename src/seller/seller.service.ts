@@ -8,19 +8,18 @@ export class SellerService {
 
   constructor(
         @InjectModel(Offer.name) private offerModel: Model<OfferDocument>) {
-    const testData = {
-      postId: '88BiWRdtqbFVgPp',
-      attachmentId: 'mHxnnaGHnC5MaS7Tb6lEs',
-      memberId: 'oxCyrNIzXa',
-      memberEmail: 'faraz.faraji.91@gmail.com',
-      price: 1200,
-      endDate: '2022-10-12T00:00:00.000Z'
-    };
-    this.createNewOffer(testData);
+    // const testData = {
+    //   postId: '88BiWRdtqbFVgPp',
+    //   attachmentId: 'mHxnnaGHnC5MaS7Tb6lEs',
+    //   memberId: 'oxCyrNIzXa',
+    //   memberEmail: 'faraz.faraji.91@gmail.com',
+    //   price: 1200,
+    //   endDate: '2022-10-12T00:00:00.000Z'
+    // };
+    // //this.createNewOffer(testData);
   }
 
   public async createNewOffer(offer: Offer) {
-    console.log('salam')
     await this.offerModel.create(offer)
   }
 }
