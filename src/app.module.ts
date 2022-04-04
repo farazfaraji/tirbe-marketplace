@@ -11,6 +11,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SellerModule } from './seller/seller.module';
 import { WebhookModule } from './webhook/webhook.module';
 import { RedisModule } from '@liaoliaots/nestjs-redis';
+import { BullModule } from '@nestjs/bull';
 
 @Module({
   imports: [
@@ -37,8 +38,13 @@ import { RedisModule } from '@liaoliaots/nestjs-redis';
       config: {
         host: 'localhost',
         port: 6379,
-        password: ''
       }
+    }),
+    BullModule.forRoot({
+      redis: {
+        host: 'localhost',
+        port: 6379,
+      },
     }),
     TribeCoreModule,
     VotingModule,

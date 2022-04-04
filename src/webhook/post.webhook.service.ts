@@ -27,15 +27,20 @@ export class PostWebhookService {
     if (!content)
       await this.removePost(postObject.id);
     if (typeof content !== 'boolean') {
-      const member = await this.core.getMemberById(postObject.createdById)
-      await this.sellerService.createNewOffer({
-        postId: postObject.id,
-        attachmentId: postObject.imageIds[0],
-        memberId: postObject.createdById,
-        memberEmail: member.email,
-        price: parseFloat(content.price.replace(/\D/g, '')),
-        endDate: content.endDate
-      })
+      if (new Date(content.endDate) > new Date()) {
+        const member = await this.core.getMemberById(postObject.createdById)
+        await this.sellerService.createNewOffer({
+          postId: postObject.id,
+          attachmentId: postObject.imageIds[0],
+          memberId: postObject.createdById,
+          memberEmail: member.email,
+          price: parseFloat(content.price.replace(/\D/g, '')),
+          endDate: content.endDate
+        })
+      }
+      else {
+        await this.removePost(postObject.id)
+      }
     }
   }
 
