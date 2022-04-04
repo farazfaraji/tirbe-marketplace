@@ -2,9 +2,10 @@ import { Body, Controller, Header, HttpCode, Post, UseGuards } from '@nestjs/com
 
 import { AuthGuard } from '../common/decorators/auth.guard';
 import { WebhookService } from './webhook.service';
+import { PostTestDto } from '../dto/post.test.dto';
 import { PostDto } from '../dto/post.dto';
 
-@Controller('webhook')
+@Controller('webhooks')
 export class WebhookController {
 
   constructor(
@@ -13,9 +14,9 @@ export class WebhookController {
   }
 
     @UseGuards(AuthGuard)
-    @Post('new-posts')
+    @Post('')
     @HttpCode(200)
-  async newOfferOnWebhook(@Body() post: PostDto) {
-    return await this.webhookService.newPostHandler(post)
+  async newRequestOnWebhook(@Body() post: PostDto) { //for webhook test you need to use PostTestDto
+    return await this.webhookService.newRequestOnWebhook(post)
   }
 }

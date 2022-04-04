@@ -40,7 +40,6 @@ export class TribeCoreService {
   }
 
   async createPost(title: string, content: string): Promise<Post> {
-    console.log(this.configService.get('tribe.inputs.post'))
     return await this.client.posts.create({
       spaceId: this.configService.get('tribe.spaces.parking'),
       input: {

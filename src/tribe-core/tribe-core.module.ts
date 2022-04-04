@@ -4,7 +4,8 @@ import { TribeCoreService } from './tribe-core.service';
 @Global()
 @Module({
   providers: [TribeCoreService],
-  exports: [TribeCoreService]
+  exports: [TribeCoreService],
+  
 })
 export class TribeCoreModule {
 }
