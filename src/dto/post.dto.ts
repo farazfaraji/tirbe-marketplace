@@ -7,6 +7,12 @@ export class PostDto {
   currentSettings?: any[];
 }
 
+export class MappingFields {
+  key?: string;
+  value?: string;
+  type?: string;
+}
+
 class Data {
   challenge?: string
   time?: Date;
@@ -61,7 +67,7 @@ class Obj {
   language?: string;
   hasMoreContent?: boolean;
   isReply?: boolean;
-  mappingFields?: string[];
+  mappingFields?: MappingFields[];
   primaryReactionType?: string;
   positiveReactionsCount?: number;
   negativeReactionsCount?: number;
@@ -85,3 +91,5 @@ class Target {
   spaceId?: string;
   memberId?: string;
 }
+
+

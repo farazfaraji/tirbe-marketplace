@@ -17,7 +17,7 @@ export class WebhookService {
 
     return WebhookService.sendResponse(post.type, (post.data.challenge) ? post.data.challenge : post.data.id)
   }
-  
+
 
   private static sendResponse(type: string, challengeId: string) {
     return {
