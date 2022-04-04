@@ -3,7 +3,6 @@ import { LoggerModule, LoggerModuleAsyncParams } from 'nestjs-pino';
 import { MongooseModule, MongooseModuleAsyncOptions } from '@nestjs/mongoose';
 
 import { TribeCoreModule } from './tribe-core/tribe-core.module';
-import { VotingModule } from './voting/voting.module';
 import { configuration } from './common/configuration';
 import { PinoLoggerInterceptor } from './common/interceptors/pino-logger.interceptor';
 import { APP_INTERCEPTOR } from '@nestjs/core';
@@ -48,7 +47,6 @@ import { EmailModule } from './email/email.module';
       },
     }),
     TribeCoreModule,
-    VotingModule,
     SellerModule,
     WebhookModule,
     EmailModule,
