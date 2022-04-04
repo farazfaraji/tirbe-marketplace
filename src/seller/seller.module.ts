@@ -5,6 +5,7 @@ import { Offer, OfferSchema } from './schemas/offer.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { BullModule } from '@nestjs/bull';
 import { AuctionsConsumer } from './auctions.consumer';
+import { EmailModule } from '../email/email.module';
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { AuctionsConsumer } from './auctions.consumer';
         name: Offer.name,
         schema: OfferSchema
       }
-    ])
+    ]),
+    EmailModule
   ],
   providers: [
     SellerService,
