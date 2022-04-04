@@ -1,4 +1,4 @@
 export type AuctionType = {
     price: string,
-    endDate: Date
+    endDate: string
 }

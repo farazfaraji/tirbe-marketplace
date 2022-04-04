@@ -16,23 +16,25 @@ export class PostWebhookService {
   async handler(post: PostDto) {
     const postObject = post.data.object;
     console.log(postObject)
-    if (postObject.attachmentIds.length !== 1) {
+    if (postObject.imageIds.length !== 1) {
       // better to show error on client side
       // but as we don't have this option, I will
       // remove the wrong structure post
       await this.removePost(postObject.id)
     }
     const content = PostWebhookService.getDataFromContent(postObject.mappingFields)
+    console.log(content, 'content')
     if (!content)
       await this.removePost(postObject.id);
     if (typeof content !== 'boolean') {
+      const member = await this.core.getMemberById(postObject.createdById)
       await this.sellerService.createNewOffer({
-        post_id: postObject.id,
-        attachmentId: postObject.attachmentIds[0],
-        member_id: postObject.createdById,
-        member_email: 'faraz',
+        postId: postObject.id,
+        attachmentId: postObject.imageIds[0],
+        memberId: postObject.createdById,
+        memberEmail: member.email,
         price: parseFloat(content.price.replace(/\D/g, '')),
-        end_date: content.endDate
+        endDate: content.endDate
       })
     }
   }
@@ -44,17 +46,20 @@ export class PostWebhookService {
   }
 
   private static getDataFromContent(fields: MappingFields[]): AuctionType | boolean {
-    if (fields.length !== 2)
+    console.log('fields.length', fields.length)
+    if (fields.length < 2)
       return false
     return PostWebhookService.removeHtmlTagFromContent(fields[1].value);
   }
 
   private static removeHtmlTagFromContent(value: string): AuctionType | boolean {
-    value = value.substring(4)
-    value = value.slice(0, -5);
-    const data = value.split('<br>');
-    if (data.length !== 2)
+    value = value.substring(4) //remove "<p>
+    const lines = value.split('<br>')
+    console.log('lines', lines)
+    if (lines.length < 2)
       return false
-    return { price: data[0], endDate: new Date(data[1]) }
+
+    const endDate = lines[1].split('</p>')[0];
+    return { price: lines[0], endDate: endDate }
   }
 }

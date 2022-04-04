@@ -1,27 +1,48 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as mSchema } from 'mongoose';
+import * as mongoose from 'mongoose';
 
 export type OfferDocument = Offer & Document;
 
 @Schema()
 export class Offer {
     @Prop({ required: true })
-      post_id: string;
+      postId: string;
 
     @Prop({ required: true })
-      member_id: string;
+      memberId: string;
 
     @Prop({ required: true })
-      member_email: string;
+      memberEmail: string;
 
     @Prop({ required: true })
       attachmentId: string;
+
+    @Prop({ required: true, type: mongoose.Schema.Types.Number })
+      price: number;
+
+    @Prop({ required: true, type: mongoose.Schema.Types.Date })
+      endDate: string;
+
+    @Prop({ required: true })
+      clients?: AuctionClient[];
+
+    @Prop({ default: 0, type: mongoose.Schema.Types.Number })
+      lastPrice?: number;
+}
+
+class AuctionClient {
+    @Prop({ required: true })
+      clientId: string;
+
+    @Prop({ required: true })
+      clientEmail: string;
 
     @Prop({ required: true })
       price: number;
 
     @Prop({ required: true })
-      end_date: Date;
+      createdAt: Date;
 }
 
-export const UserSchema = SchemaFactory.createForClass(Offer);
+export const OfferSchema = SchemaFactory.createForClass(Offer);
