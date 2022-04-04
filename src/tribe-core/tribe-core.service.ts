@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TribeClient } from '@tribeplatform/gql-client';
-import { PaginatedPostType, PaginatedSpace, Post, PostMappingTypeEnum } from '@tribeplatform/gql-client/types';
+import { Member, PaginatedPostType, PaginatedSpace, Post, PostMappingTypeEnum } from '@tribeplatform/gql-client/types';
 
 @Injectable()
 export class TribeCoreService {
@@ -37,6 +37,10 @@ export class TribeCoreService {
 
   async listPostTypes(limit): Promise<PaginatedPostType> {
     return this.client.posts.listPostTypes({ limit })
+  }
+
+  async getMemberById(id: string): Promise<Member> {
+    return await this.client.members.get(id)
   }
 
   async createPost(title: string, content: string): Promise<Post> {
