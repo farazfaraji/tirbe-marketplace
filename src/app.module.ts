@@ -54,14 +54,10 @@ import { BidsModule } from './bids/bids.module';
     BidsModule,
   ],
   providers: [
-    // {
-    //   provide: APP_INTERCEPTOR,
-    //   useClass: PinoLoggerInterceptor,
-    // },
-    // {
-    //   provide: APP_INTERCEPTOR,
-    //   useClass: ResponseLoggerInterceptor,
-    // },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: PinoLoggerInterceptor,
+    },
   ],
 })
 export class AppModule {

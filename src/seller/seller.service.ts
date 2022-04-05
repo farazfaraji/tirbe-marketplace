@@ -6,7 +6,7 @@ import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
 import { EmailService } from '../email/email.service';
 
-const TEST_DURATION_END_TIME = 3 * 60 * 1000
+const TEST_DURATION_END_TIME = 1 * 60 * 1000
 
 @Injectable()
 export class SellerService {
@@ -35,7 +35,7 @@ export class SellerService {
     const now = new Date();
     const endDate = new Date(offer.endDate);
     const msToExpire = (endDate.getTime() - now.getTime());
-    //here for test I'm changing end time to 5 min after creating
+    //here for test I'm changing end time to 3 min after creating
     await this.auctionsQueue.add(data, { delay: TEST_DURATION_END_TIME });
     await this.emailService.sendOfferConfirmation(data)
   }

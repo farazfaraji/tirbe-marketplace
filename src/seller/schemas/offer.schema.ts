@@ -41,13 +41,13 @@ export class Offer {
     @Prop({ required: true })
       mappingFields: MappingField[];
 
-    @Prop({ required: true })
+    @Prop()
       clients?: AuctionClient[];
 
     @Prop({ default: 0, type: mongoose.Schema.Types.Number })
       lastPrice?: number;
 
-    @Prop({ required: true })
+    @Prop()
       lastAuction?: AuctionClient;
 
 

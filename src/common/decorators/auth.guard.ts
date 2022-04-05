@@ -40,9 +40,10 @@ export class AuthGuard implements CanActivate {
   }
 
   private async isDuplicate(body: any) {
-    console.log(body.data?.id, this.configService.get('app.duplicate_timeout'))
-    console.log(await this.redis.get(`WEBHOOK_${body.data.id}`))
+    console.log(body.data, 'sda')
     if (body.data?.id) {
+      const key = await this.redis.get(`WEBHOOK_${body.data.id}`);
+      console.log(key);
       if (await this.redis.get(`WEBHOOK_${body.data.id}`))
         return true
       await this.redis.setex(`WEBHOOK_${body.data.id}`, this.configService.get('app.duplicate_timeout'), 'duplicate')

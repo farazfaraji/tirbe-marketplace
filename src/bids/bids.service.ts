@@ -10,9 +10,9 @@ import { TribeCoreService } from '../tribe-core/tribe-core.service';
 export class BidsService {
 
   constructor(
-      protected readonly emailService: EmailService,
-      protected readonly core: TribeCoreService,
-      @InjectModel(Offer.name) private offerModel: Model<OfferDocument>) {
+        protected readonly emailService: EmailService,
+        protected readonly core: TribeCoreService,
+        @InjectModel(Offer.name) private offerModel: Model<OfferDocument>) {
   }
 
   async isNewBidAcceptable(fatherPostId: string, newAmount: number): Promise<boolean> {
@@ -46,7 +46,7 @@ export class BidsService {
   async updatePrice(postId: string, newPrice: number) {
     const offer = await this.offerModel.findOne({ postId: postId });
     offer.mappingFields[1].value = offer.mappingFields[1].value.replace(offer.price.toString(), String(newPrice))
-    offer.save();
+    await offer.save();
     await this.core.updatePostContent(postId, offer.mappingFields)
   }
 }
