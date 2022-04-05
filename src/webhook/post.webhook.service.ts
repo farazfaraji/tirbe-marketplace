@@ -3,7 +3,6 @@ import { MappingFields, PostDto } from '../dto/post.dto';
 import { TribeCoreService } from '../tribe-core/tribe-core.service';
 import { AuctionType } from '../common/types/auction.type';
 import { SellerService } from '../seller/seller.service';
-import { Offer } from '../seller/schemas/offer.schema';
 
 @Injectable()
 export class PostWebhookService {
@@ -15,7 +14,6 @@ export class PostWebhookService {
 
   async handler(post: PostDto) {
     const postObject = post.data.object;
-    console.log(postObject)
     if (postObject.imageIds.length !== 1) {
       // better to show error on client side
       // but as we don't have this option, I will
@@ -23,7 +21,6 @@ export class PostWebhookService {
       await this.removePost(postObject.id)
     }
     const content = PostWebhookService.getDataFromContent(postObject.mappingFields)
-    console.log(content, 'content')
     if (!content)
       await this.removePost(postObject.id);
     if (typeof content !== 'boolean') {
@@ -35,7 +32,8 @@ export class PostWebhookService {
           memberId: postObject.createdById,
           memberEmail: member.email,
           price: parseFloat(content.price.replace(/\D/g, '')),
-          endDate: content.endDate
+          endDate: content.endDate,
+          mappingFields: postObject.mappingFields
         })
       }
       else {
@@ -51,7 +49,6 @@ export class PostWebhookService {
   }
 
   private static getDataFromContent(fields: MappingFields[]): AuctionType | boolean {
-    console.log('fields.length', fields.length)
     if (fields.length < 2)
       return false
     return PostWebhookService.removeHtmlTagFromContent(fields[1].value);
@@ -60,7 +57,6 @@ export class PostWebhookService {
   private static removeHtmlTagFromContent(value: string): AuctionType | boolean {
     value = value.substring(4) //remove "<p>
     const lines = value.split('<br>')
-    console.log('lines', lines)
     if (lines.length < 2)
       return false
 

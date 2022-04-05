@@ -3,7 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Email, EmailDocument } from './schemas/email.schema';
 import { Offer } from '../seller/schemas/offer.schema';
-import { NEW_OFFER_EMAIL_TEMPLATE } from './consts/email.const';
+import { BID_HAS_BEEN_ACCEPTED, NEW_BID_RECEIVED, NEW_OFFER_EMAIL_TEMPLATE } from './consts/email.const';
+import * as mustache from 'mustache'
 
 @Injectable()
 export class EmailService {
@@ -15,6 +16,20 @@ export class EmailService {
     await this.emailModel.create({
       to: data.memberEmail,
       text: NEW_OFFER_EMAIL_TEMPLATE
+    })
+  }
+
+  async BidAcceptedToBuyer(to: string, amount) {
+    await this.emailModel.create({
+      to,
+      text: mustache.render(BID_HAS_BEEN_ACCEPTED, { price: amount })
+    })
+  }
+
+  async newBidReceived(data: Offer, newAmount: number) {
+    await this.emailModel.create({
+      to: data.memberEmail,
+      text: mustache.render(NEW_BID_RECEIVED, { email: data.memberEmail, price: newAmount })
     })
   }
 }

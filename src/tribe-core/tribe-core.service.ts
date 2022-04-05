@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TribeClient } from '@tribeplatform/gql-client';
 import { Member, PaginatedPostType, PaginatedSpace, Post, PostMappingTypeEnum } from '@tribeplatform/gql-client/types';
+import { MappingField } from '../seller/schemas/offer.schema';
+
 
 @Injectable()
 export class TribeCoreService {
@@ -61,6 +63,31 @@ export class TribeCoreService {
           }
         ],
         publish: true,
+      }
+    })
+  }
+
+  async updatePostContent(postId: string, mappingField: MappingField[]) {
+    return await this.client.posts.update({
+      id: postId,
+      input: {
+        mappingFields: [
+          {
+            key: mappingField[0].key,
+            type: PostMappingTypeEnum.TEXT,
+            value: mappingField[0].value,
+          },
+          {
+            key: mappingField[1].key,
+            type: PostMappingTypeEnum.HTML,
+            value: mappingField[1].value,
+          },
+          {
+            key: mappingField[2].key,
+            type: PostMappingTypeEnum.IMAGE,
+            value: mappingField[2].value,
+          }
+        ]
       }
     })
   }
