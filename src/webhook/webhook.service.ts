@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { POST } from '../dto/enums/post-types.enum';
+import { POST } from '../common/dto/enums/post-types.enum';
 import { PostWebhookService } from './post.webhook.service';
 import { ReplyWebhookService } from './reply.webhook.service';
 

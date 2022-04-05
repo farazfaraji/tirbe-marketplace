@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { EmailService } from '../email/email.service';
 import { InjectModel } from '@nestjs/mongoose';
-import { Offer, OfferDocument } from '../seller/schemas/offer.schema';
+import { AuctionClient, Offer, OfferDocument } from '../seller/schemas/offer.schema';
 import { Model } from 'mongoose';
 import { AcceptBidType } from './types/accept-bid.type';
 import { TribeCoreService } from '../tribe-core/tribe-core.service';
@@ -10,9 +10,9 @@ import { TribeCoreService } from '../tribe-core/tribe-core.service';
 export class BidsService {
 
   constructor(
-        protected readonly emailService: EmailService,
-        protected readonly core: TribeCoreService,
-        @InjectModel(Offer.name) private offerModel: Model<OfferDocument>) {
+      protected readonly emailService: EmailService,
+      protected readonly core: TribeCoreService,
+      @InjectModel(Offer.name) private offerModel: Model<OfferDocument>) {
   }
 
   async isNewBidAcceptable(fatherPostId: string, newAmount: number): Promise<boolean> {
@@ -26,12 +26,15 @@ export class BidsService {
 
   async acceptBid(acceptBidType: AcceptBidType) {
     const offer = await this.offerModel.findOne({ postId: acceptBidType.fatherPostId });
-    offer.clients.push({
+    const client: AuctionClient = {
       clientId: acceptBidType.customerId,
       clientEmail: acceptBidType.customerEmail,
       price: acceptBidType.newAmount,
       createdAt: new Date()
-    })
+    }
+
+    offer.clients.push(client)
+    offer.lastAuction = client
     offer.lastPrice = acceptBidType.newAmount
     offer.save();
 

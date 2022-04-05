@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PostDto } from '../dto/post.dto';
+import { PostDto } from '../common/dto/post.dto';
 import { TribeCoreService } from '../tribe-core/tribe-core.service';
 import { BidsService } from '../bids/bids.service';
 
