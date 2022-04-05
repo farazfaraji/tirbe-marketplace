@@ -3,14 +3,18 @@ import { WebhookService } from './webhook.service';
 import { WebhookController } from './webhook.controller';
 import { PostWebhookService } from './post.webhook.service';
 import { SellerModule } from '../seller/seller.module';
+import { ReplyWebhookService } from './reply.webhook.service';
+import { BidsModule } from '../bids/bids.module';
 
 @Module({
   imports: [
-    SellerModule
+    SellerModule,
+    BidsModule
   ],
   providers: [
     WebhookService,
-    PostWebhookService
+    PostWebhookService,
+    ReplyWebhookService
   ],
   controllers: [WebhookController]
 })

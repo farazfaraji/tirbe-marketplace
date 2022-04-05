@@ -25,12 +25,26 @@ export class Offer {
       endDate: string;
 
     @Prop({ required: true })
+      mappingFields: MappingField[];
+
+    @Prop({ required: true })
       clients?: AuctionClient[];
 
     @Prop({ default: 0, type: mongoose.Schema.Types.Number })
       lastPrice?: number;
 
     _id?: mongoose.Types.ObjectId
+}
+
+export class MappingField {
+    @Prop()
+      key?: string;
+
+    @Prop()
+      type?: string;
+
+    @Prop()
+      value?: string
 }
 
 class AuctionClient {

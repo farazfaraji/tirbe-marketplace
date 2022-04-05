@@ -12,6 +12,7 @@ import { WebhookModule } from './webhook/webhook.module';
 import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { BullModule } from '@nestjs/bull';
 import { EmailModule } from './email/email.module';
+import { BidsModule } from './bids/bids.module';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { EmailModule } from './email/email.module';
     SellerModule,
     WebhookModule,
     EmailModule,
+    BidsModule,
   ],
   providers: [
     // {

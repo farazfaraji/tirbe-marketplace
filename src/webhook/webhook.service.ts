@@ -1,21 +1,26 @@
 import { Injectable } from '@nestjs/common';
-import { PostDto } from '../dto/post.dto';
 import { POST } from '../dto/enums/post-types.enum';
 import { PostWebhookService } from './post.webhook.service';
+import { ReplyWebhookService } from './reply.webhook.service';
 
 @Injectable()
 export class WebhookService {
 
   constructor(
         protected readonly postWebhookService: PostWebhookService,
+        protected readonly replyWebhookService: ReplyWebhookService
   ) {
   }
 
-  public async newRequestOnWebhook(post: PostDto) {
-    if (post.data.name === POST.NEW_POST)
-      await this.postWebhookService.handler(post)
+  public async newRequestOnWebhook(data) {
+    console.log(data)
+    if (data.data.name === POST.NEW_POST)
+      if (!data.data.object.isReply)
+        await this.postWebhookService.handler(data)
+      else
+        await this.replyWebhookService.handler(data)
 
-    return WebhookService.sendResponse(post.type, (post.data.challenge) ? post.data.challenge : post.data.id)
+    return WebhookService.sendResponse(data.type, (data.data.challenge) ? data.data.challenge : data.data.id)
   }
 
 

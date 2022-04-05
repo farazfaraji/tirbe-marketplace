@@ -30,6 +30,7 @@ export class SellerService {
 
 
   public async createNewOffer(offer: Offer) {
+    offer.lastPrice = offer.price;
     const data = await this.offerModel.create(offer)
     const now = new Date();
     const endDate = new Date(offer.endDate);
