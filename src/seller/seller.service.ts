@@ -6,7 +6,7 @@ import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
 import { EmailService } from '../email/email.service';
 
-const TEST_DURATION_END_TIME = 1 * 60 * 1000
+const TEST_DURATION_END_TIME = 3 * 60 * 1000
 
 @Injectable()
 export class SellerService {
