@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { MappingFields, PostDto } from '../dto/post.dto';
+import { MappingFields, PostDto } from '../common/dto/post.dto';
 import { TribeCoreService } from '../tribe-core/tribe-core.service';
 import { AuctionType } from '../common/types/auction.type';
 import { SellerService } from '../seller/seller.service';
@@ -33,7 +33,7 @@ export class PostWebhookService {
           memberEmail: member.email,
           price: parseFloat(content.price.replace(/\D/g, '')),
           endDate: content.endDate,
-          mappingFields: postObject.mappingFields
+          mappingFields: postObject.mappingFields,
         })
       }
       else {

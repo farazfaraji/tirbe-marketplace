@@ -4,6 +4,20 @@ import * as mongoose from 'mongoose';
 
 export type OfferDocument = Offer & Document;
 
+export class AuctionClient {
+    @Prop({ required: true })
+      clientId: string;
+
+    @Prop({ required: true })
+      clientEmail: string;
+
+    @Prop({ required: true })
+      price: number;
+
+    @Prop({ required: true })
+      createdAt: Date;
+}
+
 @Schema()
 export class Offer {
     @Prop({ required: true })
@@ -33,6 +47,10 @@ export class Offer {
     @Prop({ default: 0, type: mongoose.Schema.Types.Number })
       lastPrice?: number;
 
+    @Prop({ required: true })
+      lastAuction?: AuctionClient;
+
+
     _id?: mongoose.Types.ObjectId
 }
 
@@ -47,18 +65,5 @@ export class MappingField {
       value?: string
 }
 
-class AuctionClient {
-    @Prop({ required: true })
-      clientId: string;
-
-    @Prop({ required: true })
-      clientEmail: string;
-
-    @Prop({ required: true })
-      price: number;
-
-    @Prop({ required: true })
-      createdAt: Date;
-}
 
 export const OfferSchema = SchemaFactory.createForClass(Offer);

@@ -2,8 +2,8 @@ import { Body, Controller, Header, HttpCode, Post, UseGuards } from '@nestjs/com
 
 import { AuthGuard } from '../common/decorators/auth.guard';
 import { WebhookService } from './webhook.service';
-import { PostTestDto } from '../dto/post.test.dto';
-import { PostDto } from '../dto/post.dto';
+import { PostTestDto } from '../common/dto/post.test.dto';
+import { PostDto } from '../common/dto/post.dto';
 
 @Controller('webhooks')
 export class WebhookController {
