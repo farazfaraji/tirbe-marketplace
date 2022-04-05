@@ -16,16 +16,6 @@ export class SellerService {
         @InjectModel(Offer.name) private offerModel: Model<OfferDocument>,
         @InjectQueue('auctions') private auctionsQueue: Queue
   ) {
-
-    const testData = {
-      postId: '88BiWRdtqbFVgPp',
-      attachmentId: 'mHxnnaGHnC5MaS7Tb6lEs',
-      memberId: 'oxCyrNIzXa',
-      memberEmail: 'faraz.faraji.91@gmail.com',
-      price: 1200,
-      endDate: '2022-10-12T00:00:00.000Z'
-    };
-    //this.createNewOffer(testData);
   }
 
 
